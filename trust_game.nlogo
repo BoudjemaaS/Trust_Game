@@ -73,10 +73,10 @@ to setup
   set next-id-placement 0  ; Initialiser le compteur à 0
 
   ; initialisation dans l'interface
-  set elimination-round elimination-frequency
-  set next-elimination-round elimination-frequency
-  set players-to-eliminate bottom-players-to-remove
-  set players-to-replicate top-players-to-copy
+  set elimination-round round_av_evolution
+  set next-elimination-round round_av_evolution
+  set players-to-eliminate nb_worst_player
+  set players-to-replicate nb_best_player
 
   set number_rounds 1
 
@@ -356,10 +356,10 @@ end
 to evolve-population
   let all-players sort-on [coins] players
   if empty? all-players [ print "Attention: liste de joueurs vide!" stop ]
-  set worst-player-ids map [p -> [who] of p] sublist all-players 0 bottom-players-to-remove
+  set worst-player-ids map [p -> [who] of p] sublist all-players 0 nb_worst_player
 
   let best-player-ids map [p -> [who] of p] reverse sublist all-players
-  (length all-players - top-players-to-copy) length all-players
+  (length all-players - nb_best_player) length all-players
 
   ; supprimer les étiquettes des joueurs à éliminer
   ask labels [
@@ -471,7 +471,7 @@ to start-new-round
   [
     if round-number >= next-elimination-round [
       evolve-population
-    set next-elimination-round next-elimination-round + elimination-frequency
+    set next-elimination-round next-elimination-round + round_av_evolution
   ]
   ]
 
@@ -505,7 +505,7 @@ to next-match-step
     ; Vérifier si c'est le moment d'éliminer et reproduire
     if round-number >= next-elimination-round [
       evolve-population
-      set next-elimination-round next-elimination-round + elimination-frequency
+      set next-elimination-round next-elimination-round + round_av_evolution
     ]
 
     ; Commencer un nouveau tour
@@ -551,7 +551,7 @@ to play-match [player1 player2]
   display
   wait speed-game
 
-  ifelse fast-round [set number_rounds elimination-frequency] [set number_rounds 1]
+  ifelse fast-round [set number_rounds round_av_evolution] [set number_rounds 1]
 
   repeat number_rounds [
     ; Logique du match
@@ -789,10 +789,10 @@ to-report number-betrayed-consecutive [their-moves]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-587
-10
-1232
-656
+725
+75
+1370
+721
 -1
 -1
 13.0
@@ -816,85 +816,85 @@ ticks
 30.0
 
 SLIDER
-0
-64
-172
-97
+516
+141
+688
+174
 human-count
 human-count
 0
 100
-73.0
+0.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-0
-104
-172
-137
+516
+181
+688
+214
 bot-count
 bot-count
 0
 100
-0.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-1
-144
-173
-177
+517
+221
+689
+254
 copycat-count
 copycat-count
 0
 100
-0.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-1
-183
-173
-216
+517
+260
+689
+293
 cheater-count
 cheater-count
 0
 100
-0.0
+3.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-1
-223
-173
-256
+517
+300
+689
+333
 cooperator-count
 cooperator-count
 0
 100
-0.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-365
-195
-428
-228
+759
+725
+822
+758
 NIL
 setup
 NIL
@@ -908,25 +908,25 @@ NIL
 1
 
 SLIDER
-1
-263
-173
-296
+517
+340
+689
+373
 grudger-count
 grudger-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-1
-304
-173
-337
+517
+381
+689
+414
 detective-count
 detective-count
 0
@@ -938,10 +938,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1
-385
-173
-418
+517
+462
+689
+495
 copykitten-count
 copykitten-count
 0
@@ -953,40 +953,40 @@ NIL
 HORIZONTAL
 
 SLIDER
-198
-105
-370
-138
-elimination-frequency
-elimination-frequency
+1439
+361
+1611
+394
+round_av_evolution
+round_av_evolution
 0
 100
-50.0
+15.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-198
-65
-372
-98
-bottom-players-to-remove
-bottom-players-to-remove
+1440
+436
+1614
+469
+nb_worst_player
+nb_worst_player
 0
 10
-2.0
+1.0
 1
 1
 NIL
 HORIZONTAL
 
 BUTTON
-344
-253
-454
-286
+847
+748
+957
+781
 NIL
 go
 T
@@ -1000,10 +1000,10 @@ NIL
 1
 
 BUTTON
-355
-307
-441
-340
+1084
+748
+1170
+781
 Pas à pas
 next-match-step
 NIL
@@ -1017,10 +1017,10 @@ NIL
 1
 
 SLIDER
-1620
-247
-1795
-280
+880
+33
+1055
+66
 speed-game
 speed-game
 0.00
@@ -1032,10 +1032,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-290
-356
-394
-389
+904
+793
+1008
+826
 Humain vérité
 set human-decision 1\nnext-match-step
 NIL
@@ -1049,10 +1049,10 @@ NIL
 1
 
 BUTTON
-402
-356
-511
-389
+1016
+793
+1125
+826
 Humain mentir
 set human-decision 0\nnext-match-step
 NIL
@@ -1066,10 +1066,10 @@ NIL
 1
 
 SLIDER
-1573
-342
-1745
-375
+1067
+33
+1239
+66
 error-rate
 error-rate
 0
@@ -1081,47 +1081,36 @@ NIL
 HORIZONTAL
 
 SLIDER
-198
-28
-370
-61
-top-players-to-copy
-top-players-to-copy
+1440
+399
+1612
+432
+nb_best_player
+nb_best_player
 0
 10
-2.0
+1.0
 1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-1171
-15
-1228
-60
+1216
+80
+1273
+125
 Round:
 round-number
 17
 1
 11
 
-MONITOR
-400
-38
-584
-83
-Match restants:
-format-matches remaining-matches
-17
-1
-11
-
 SLIDER
-3
-423
-175
-456
+155
+140
+327
+173
 custom-count
 custom-count
 0
@@ -1133,10 +1122,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-198
-500
-370
-533
+62
+269
+234
+302
 custom-betray-after
 custom-betray-after
 0
@@ -1148,20 +1137,20 @@ NIL
 HORIZONTAL
 
 CHOOSER
-200
-450
-372
-495
+62
+221
+234
+266
 custom-initial-moves-list
 custom-initial-moves-list
 [0] [1] [1 1 1] [1 1 0] [0 0 0] [0 1 1] [1 0 1 1] [0 0 1 0 1 0 1 0 1 0 1 0]
 6
 
 INPUTBOX
-1286
-322
-1390
-382
+1612
+237
+1662
+297
 coins-verite-verite
 2.0
 1
@@ -1169,10 +1158,10 @@ coins-verite-verite
 Number
 
 INPUTBOX
-1369
-390
-1487
-450
+1541
+236
+1591
+296
 coins-verite-mensonge
 -1.0
 1
@@ -1180,10 +1169,10 @@ coins-verite-mensonge
 Number
 
 INPUTBOX
-1348
-514
-1487
-574
+1541
+167
+1591
+227
 coins-mensonge-mensonge
 0.0
 1
@@ -1191,10 +1180,10 @@ coins-mensonge-mensonge
 Number
 
 INPUTBOX
-1366
-452
-1487
-512
+1611
+167
+1661
+227
 coins-mensonge-verite
 10.0
 1
@@ -1202,10 +1191,10 @@ coins-mensonge-verite
 Number
 
 MONITOR
-1233
-10
-1321
-55
+1187
+125
+1275
+170
 Total joueurs:
 count players
 17
@@ -1213,10 +1202,10 @@ count players
 11
 
 SWITCH
-385
-538
-611
-571
+62
+305
+288
+338
 custom-play-opponent-last-move
 custom-play-opponent-last-move
 1
@@ -1224,36 +1213,36 @@ custom-play-opponent-last-move
 -1000
 
 SLIDER
-376
-503
-595
-536
+239
+269
+458
+302
 custom-consecutive-betray-after
 custom-consecutive-betray-after
 0
 100
-0.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SWITCH
-377
-459
-578
-492
+238
+227
+439
+260
 custom-repeat-initial-moves
 custom-repeat-initial-moves
-1
+0
 1
 -1000
 
 BUTTON
-241
-212
-304
-245
+760
+766
+823
+799
 reset
 set human-count 0\nset bot-count 0\nset copycat-count 0\nset cheater-count 0\nset cooperator-count 0\nset grudger-count 0\nset detective-count 0\nset simpleton-count 0\nset copykitten-count 0\nset custom-count 0\n\nsetup
 NIL
@@ -1267,10 +1256,10 @@ NIL
 1
 
 SLIDER
-0
-346
-173
-379
+516
+423
+689
+456
 simpleton-count
 simpleton-count
 0
@@ -1282,10 +1271,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-179
-151
-307
-184
+531
+509
+659
+542
 bot-truth-percent
 bot-truth-percent
 0
@@ -1297,10 +1286,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-1134
-60
-1228
-105
+1272
+80
+1366
+125
 Matchs restants
 length remaining-matches
 17
@@ -1308,10 +1297,10 @@ length remaining-matches
 11
 
 BUTTON
-72
-18
-184
-51
+964
+748
+1076
+781
 Tour complet
 next-match-step\none-round-only\n
 NIL
@@ -1325,10 +1314,10 @@ NIL
 1
 
 SWITCH
-415
-87
-523
-120
+1187
+748
+1295
+781
 fast-round
 fast-round
 0
@@ -1336,10 +1325,10 @@ fast-round
 -1000
 
 SWITCH
-209
-541
-380
-574
+63
+183
+234
+216
 custom-play-randomly
 custom-play-randomly
 1
@@ -1347,10 +1336,10 @@ custom-play-randomly
 -1000
 
 SLIDER
-35
-543
-207
-576
+238
+183
+410
+216
 custom-truth-percent
 custom-truth-percent
 0
@@ -1361,33 +1350,116 @@ custom-truth-percent
 NIL
 HORIZONTAL
 
-BUTTON
-68
-500
-170
-533
-+1 custom
-set custom-count custom-count + 1
-NIL
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
 MONITOR
-1292
-211
-1384
-256
+1274
+125
+1366
+170
 Worst players
 worst-player-ids
 17
 1
 11
+
+TEXTBOX
+1555
+300
+1701
+326
+Gains du joueur
+15
+0.0
+1
+
+TEXTBOX
+1575
+99
+1639
+118
+Opposant
+15
+0.0
+1
+
+TEXTBOX
+1404
+215
+1449
+234
+Joueur
+15
+0.0
+1
+
+TEXTBOX
+1542
+144
+1596
+162
+Mensonge
+11
+0.0
+1
+
+TEXTBOX
+1481
+190
+1533
+208
+Mensonge
+11
+0.0
+1
+
+TEXTBOX
+1498
+255
+1529
+273
+Vérité
+11
+0.0
+1
+
+TEXTBOX
+1623
+146
+1655
+164
+Vérité
+11
+0.0
+1
+
+TEXTBOX
+531
+102
+681
+121
+Séléction des joueurs
+15
+0.0
+1
+
+TEXTBOX
+188
+105
+292
+124
+Joueur Custom
+15
+0.0
+1
+
+TEXTBOX
+1471
+328
+1621
+347
+Evolution du jeu 
+15
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
