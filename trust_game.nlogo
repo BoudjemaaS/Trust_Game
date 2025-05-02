@@ -58,6 +58,7 @@ globals [
   worst-player-strat
   best-player-strat
   conv-custom-initial-moves-list
+
 ]
 
 ; ------------------------------------------- CONTROLE DE L'INTERFACE -------------------------------------------
@@ -498,6 +499,7 @@ end
 
 ; Joue le prochain match dans la file d'attente
 to play-next-match
+
   if not empty? remaining-matches [
     set current-match-pair first remaining-matches
     set remaining-matches but-first remaining-matches
@@ -505,32 +507,71 @@ to play-next-match
     let player1 first current-match-pair
     let player2 last current-match-pair
 
-    ; Marquer les joueurs comme ayant joué
-    ask player1 [ set matched? true]
-    ask player2 [ set matched? true]
 
-    ; Jouer le match
-    play-match player1 player2
+     ;Marquer les joueurs comme ayant joué
+     ask player1 [ set matched? true]
+     ask player2 [ set matched? true]
+     ;Jouer le match
+     play-match player1 player2
+
   ]
 end
-; Nouvelle procédure pour passer à l'étape suivante (un seul match)
-to next-match-step
-  ; Si aucun match en cours
-  if empty? remaining-matches [
-    ; Vérifier si c'est le moment d'éliminer et reproduire
-    if round-number >= next-elimination-round [
-      evolve-population
-      set next-elimination-round next-elimination-round + round_av_evolution
-    ]
 
-    ; Commencer un nouveau tour
-    start-new-round
+
+
+
+to human_play
+  let player1 first (first remaining-matches)
+  let player2 last (first remaining-matches)
+
+  if ([strategy] of player1 = "human" or [strategy] of player2 = "human")
+  [
+    show "h1"
+    ; Si aucun match en cours
+    if empty? remaining-matches[show "h2"
+      ; Vérifier si c'est le moment d'éliminer et reproduire
+      if round-number >= next-elimination-round [
+        evolve-population
+        set next-elimination-round next-elimination-round + round_av_evolution
+      ]
+
+      ; Commencer un nouveau tour
+      start-new-round
+      play-next-match
+      stop  ; On stop pour ne pas jouer un match immédiatement après
+    ]
+    ; Jouer le prochain match
     play-next-match
-    stop  ; On stop pour ne pas jouer un match immédiatement après
+
   ]
 
-  ; Jouer le prochain match
-  play-next-match
+end
+
+
+
+
+
+; Nouvelle procédure pour passer à l'étape suivante (un seul match)
+to next-match-step
+
+    ; Si aucun match en cours
+    if empty? remaining-matches[
+      ; Vérifier si c'est le moment d'éliminer et reproduire
+      if round-number >= next-elimination-round [
+        evolve-population
+        set next-elimination-round next-elimination-round + round_av_evolution
+      ]
+
+      ; Commencer un nouveau tour
+      start-new-round
+      play-next-match
+      stop  ; On stop pour ne pas jouer un match immédiatement après
+    ]
+
+    ; Jouer le prochain match
+    play-next-match
+
+
 end
 
 ; Prépare tous les matchs pour le tour actuel
@@ -854,7 +895,7 @@ bot-count
 bot-count
 0
 100
-1.0
+0.0
 1
 1
 NIL
@@ -869,7 +910,7 @@ copycat-count
 copycat-count
 0
 100
-1.0
+0.0
 1
 1
 NIL
@@ -884,7 +925,7 @@ cheater-count
 cheater-count
 0
 100
-1.0
+0.0
 1
 1
 NIL
@@ -961,7 +1002,7 @@ copykitten-count
 copykitten-count
 0
 100
-2.0
+1.0
 1
 1
 NIL
@@ -976,7 +1017,7 @@ round_av_evolution
 round_av_evolution
 0
 100
-4.0
+78.0
 1
 1
 NIL
@@ -991,7 +1032,7 @@ nb_worst_player
 nb_worst_player
 0
 10
-1.0
+0.0
 1
 1
 NIL
@@ -1052,7 +1093,7 @@ BUTTON
 1008
 826
 Humain vérité
-set human-decision 1\nnext-match-step
+\n\nset human-decision 1\nhuman_play
 NIL
 1
 T
@@ -1069,7 +1110,7 @@ BUTTON
 1125
 826
 Humain mentir
-set human-decision 0\nnext-match-step
+\n\nset human-decision 0\nhuman_play
 NIL
 1
 T
@@ -1130,7 +1171,7 @@ custom-count
 custom-count
 0
 25
-1.0
+0.0
 1
 1
 NIL
