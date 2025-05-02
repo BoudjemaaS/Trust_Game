@@ -55,6 +55,8 @@ globals [
   next-id-placement  ; Compteur global pour les nouvelles positions
   number_rounds
   worst-player-ids
+  worst-player-strat
+  best-player-strat
   conv-custom-initial-moves-list
 ]
 
@@ -68,7 +70,7 @@ to setup
   resize-world -24 24 -24 24
 
   set human-decision 1
-  set round-number 0
+  set round-number 1
   set current-match-pair []
   set remaining-matches []
   set next-id-placement 0  ; Initialiser le compteur à 0
@@ -361,10 +363,10 @@ to evolve-population
   let all-players sort-on [coins] players
   if empty? all-players [ print "Attention: liste de joueurs vide!" stop ]
   set worst-player-ids map [p -> [who] of p] sublist all-players 0 nb_worst_player
+  set worst-player-strat map [p -> [strategy] of p] sublist all-players 0 nb_worst_player
 
-  let best-player-ids map [p -> [who] of p] reverse sublist all-players
-  (length all-players - nb_best_player) length all-players
-
+  let best-player-ids map [p -> [who] of p] reverse sublist all-players (length all-players - nb_best_player) length all-players
+  set best-player-strat map [p -> [strategy] of p] reverse sublist all-players (length all-players - nb_best_player) length all-players
   ; supprimer les étiquettes des joueurs à éliminer
   ask labels [
     if member? player-id worst-player-ids [ die ]
@@ -464,8 +466,17 @@ end
 
 ; Commence un nouveau tour
 to start-new-round
-  set round-number round-number + 1
-  ask players [ set rounds-played rounds-played + 1 ]
+  ifelse fast-round
+
+  [set round-number round-number + round_av_evolution
+  ask players [ set rounds-played rounds-played + round_av_evolution]
+  ]
+
+  [set round-number round-number + 1
+   ask players [ set rounds-played rounds-played + 1 ]
+  ]
+
+
 
 
   ; Vérifier si c'est le moment d'éliminer et reproduire
@@ -828,7 +839,7 @@ human-count
 human-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -843,7 +854,7 @@ bot-count
 bot-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -858,7 +869,7 @@ copycat-count
 copycat-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -873,7 +884,7 @@ cheater-count
 cheater-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -888,7 +899,7 @@ cooperator-count
 cooperator-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -920,7 +931,7 @@ grudger-count
 grudger-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -935,7 +946,7 @@ detective-count
 detective-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -950,7 +961,7 @@ copykitten-count
 copykitten-count
 0
 100
-0.0
+2.0
 1
 1
 NIL
@@ -965,7 +976,7 @@ round_av_evolution
 round_av_evolution
 0
 100
-100.0
+4.0
 1
 1
 NIL
@@ -980,7 +991,7 @@ nb_worst_player
 nb_worst_player
 0
 10
-0.0
+1.0
 1
 1
 NIL
@@ -1100,9 +1111,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-1216
+803
 80
-1273
+860
 125
 Round:
 round-number
@@ -1119,7 +1130,7 @@ custom-count
 custom-count
 0
 25
-2.0
+1.0
 1
 1
 NIL
@@ -1185,10 +1196,10 @@ coins-mensonge-verite
 Number
 
 MONITOR
-1187
+950
+80
+1038
 125
-1275
-170
 Total joueurs:
 count players
 17
@@ -1258,7 +1269,7 @@ simpleton-count
 simpleton-count
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -1280,9 +1291,9 @@ NIL
 HORIZONTAL
 
 MONITOR
-1272
+859
 80
-1366
+953
 125
 Matchs restants
 length remaining-matches
@@ -1325,7 +1336,7 @@ SWITCH
 216
 custom-play-randomly
 custom-play-randomly
-1
+0
 1
 -1000
 
@@ -1338,19 +1349,19 @@ custom-truth-percent
 custom-truth-percent
 0
 100
-36.0
+100.0
 1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-1274
+1038
+80
+1181
 125
-1366
-170
 Worst players
-worst-player-ids
+worst-player-strat
 17
 1
 11
@@ -1465,6 +1476,17 @@ custom-initial-moves-list
 1
 0
 String (reporter)
+
+MONITOR
+1180
+80
+1292
+125
+NIL
+best-player-strat
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
