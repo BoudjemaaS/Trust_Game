@@ -55,6 +55,7 @@ globals [
   next-id-placement  ; Compteur global pour les nouvelles positions
   number_rounds
   worst-player-ids
+  conv-custom-initial-moves-list
 ]
 
 ; ------------------------------------------- CONTROLE DE L'INTERFACE -------------------------------------------
@@ -77,6 +78,9 @@ to setup
   set next-elimination-round round_av_evolution
   set players-to-eliminate nb_worst_player
   set players-to-replicate nb_best_player
+
+  set conv-custom-initial-moves-list read-from-string custom-initial-moves-list
+
 
   set number_rounds 1
 
@@ -715,7 +719,7 @@ to-report get-decision [player opponent]
     let opp-id [who] of opponent
     let opp-moves get-moves-against player opp-id
     let rounds length opp-moves
-    let lenght-initial-moves length custom-initial-moves-list
+    let lenght-initial-moves length conv-custom-initial-moves-list
 
     if custom-play-opponent-last-move = true [
       report ifelse-value (empty? their-moves)
@@ -737,15 +741,15 @@ to-report get-decision [player opponent]
     ]
 
     if custom-repeat-initial-moves = true [
-      let move-index (rounds mod length custom-initial-moves-list)
-      let move-to-play item move-index custom-initial-moves-list
+      let move-index (rounds mod length conv-custom-initial-moves-list)
+      let move-to-play item move-index conv-custom-initial-moves-list
       report move-to-play
     ]
 
 
     ; Phase initiale: jouer la séquence prédéfinie
     if rounds < lenght-initial-moves [
-      let move-to-play item rounds custom-initial-moves-list
+      let move-to-play item rounds conv-custom-initial-moves-list
       report move-to-play
     ]
 
@@ -839,7 +843,7 @@ bot-count
 bot-count
 0
 100
-2.0
+0.0
 1
 1
 NIL
@@ -854,7 +858,7 @@ copycat-count
 copycat-count
 0
 100
-2.0
+0.0
 1
 1
 NIL
@@ -869,7 +873,7 @@ cheater-count
 cheater-count
 0
 100
-3.0
+0.0
 1
 1
 NIL
@@ -884,7 +888,7 @@ cooperator-count
 cooperator-count
 0
 100
-2.0
+0.0
 1
 1
 NIL
@@ -916,7 +920,7 @@ grudger-count
 grudger-count
 0
 100
-1.0
+0.0
 1
 1
 NIL
@@ -961,7 +965,7 @@ round_av_evolution
 round_av_evolution
 0
 100
-15.0
+100.0
 1
 1
 NIL
@@ -976,7 +980,7 @@ nb_worst_player
 nb_worst_player
 0
 10
-1.0
+0.0
 1
 1
 NIL
@@ -1089,7 +1093,7 @@ nb_best_player
 nb_best_player
 0
 10
-1.0
+0.0
 1
 1
 NIL
@@ -1115,17 +1119,17 @@ custom-count
 custom-count
 0
 25
-0.0
+2.0
 1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-62
-269
-234
-302
+65
+282
+237
+315
 custom-betray-after
 custom-betray-after
 0
@@ -1135,16 +1139,6 @@ custom-betray-after
 1
 NIL
 HORIZONTAL
-
-CHOOSER
-62
-221
-234
-266
-custom-initial-moves-list
-custom-initial-moves-list
-[0] [1] [1 1 1] [1 1 0] [0 0 0] [0 1 1] [1 0 1 1] [0 0 1 0 1 0 1 0 1 0 1 0]
-6
 
 INPUTBOX
 1612
@@ -1185,7 +1179,7 @@ INPUTBOX
 1661
 227
 coins-mensonge-verite
-10.0
+3.0
 1
 0
 Number
@@ -1202,10 +1196,10 @@ count players
 11
 
 SWITCH
-62
-305
-288
-338
+65
+318
+291
+351
 custom-play-opponent-last-move
 custom-play-opponent-last-move
 1
@@ -1213,15 +1207,15 @@ custom-play-opponent-last-move
 -1000
 
 SLIDER
-239
-269
-458
-302
+242
+282
+461
+315
 custom-consecutive-betray-after
 custom-consecutive-betray-after
 0
 100
-2.0
+0.0
 1
 1
 NIL
@@ -1234,7 +1228,7 @@ SWITCH
 260
 custom-repeat-initial-moves
 custom-repeat-initial-moves
-0
+1
 1
 -1000
 
@@ -1271,10 +1265,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-531
-509
-659
-542
+540
+507
+668
+540
 bot-truth-percent
 bot-truth-percent
 0
@@ -1320,7 +1314,7 @@ SWITCH
 781
 fast-round
 fast-round
-0
+1
 1
 -1000
 
@@ -1344,7 +1338,7 @@ custom-truth-percent
 custom-truth-percent
 0
 100
-10.0
+36.0
 1
 1
 NIL
@@ -1460,6 +1454,17 @@ Evolution du jeu
 15
 0.0
 1
+
+INPUTBOX
+64
+219
+234
+279
+custom-initial-moves-list
+[0 1 0 1]
+1
+0
+String (reporter)
 
 @#$#@#$#@
 ## WHAT IS IT?
