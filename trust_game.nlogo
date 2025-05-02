@@ -845,10 +845,10 @@ to-report number-betrayed-consecutive [their-moves]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-725
-75
-1370
-721
+466
+17
+1111
+663
 -1
 -1
 13.0
@@ -872,10 +872,10 @@ ticks
 30.0
 
 SLIDER
-516
-141
-688
-174
+222
+87
+394
+120
 human-count
 human-count
 0
@@ -887,10 +887,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-516
-181
-688
-214
+44
+46
+216
+79
 bot-count
 bot-count
 0
@@ -902,10 +902,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-517
-221
-689
-254
+45
+87
+217
+120
 copycat-count
 copycat-count
 0
@@ -917,10 +917,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-517
-260
-689
-293
+45
+125
+217
+158
 cheater-count
 cheater-count
 0
@@ -932,10 +932,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-517
-300
-689
-333
+223
+125
+395
+158
 cooperator-count
 cooperator-count
 0
@@ -947,10 +947,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-759
-725
-822
-758
+500
+667
+563
+700
 NIL
 setup
 NIL
@@ -964,10 +964,10 @@ NIL
 1
 
 SLIDER
-517
-340
-689
-373
+46
+162
+218
+195
 grudger-count
 grudger-count
 0
@@ -979,10 +979,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-517
-381
-689
-414
+46
+204
+218
+237
 detective-count
 detective-count
 0
@@ -994,10 +994,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-517
-462
-689
-495
+223
+203
+395
+236
 copykitten-count
 copykitten-count
 0
@@ -1009,10 +1009,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1439
-361
-1611
-394
+43
+593
+215
+626
 round_av_evolution
 round_av_evolution
 0
@@ -1024,10 +1024,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1440
-436
-1614
-469
+44
+669
+218
+702
 nb_worst_player
 nb_worst_player
 0
@@ -1039,10 +1039,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-847
-748
-957
-781
+586
+670
+696
+703
 NIL
 go
 T
@@ -1056,10 +1056,10 @@ NIL
 1
 
 BUTTON
-1084
-748
-1170
-781
+823
+670
+909
+703
 Pas à pas
 next-match-step
 NIL
@@ -1073,10 +1073,10 @@ NIL
 1
 
 SLIDER
-880
-33
-1055
-66
+884
+715
+1059
+748
 speed-game
 speed-game
 0.00
@@ -1088,10 +1088,10 @@ NIL
 HORIZONTAL
 
 BUTTON
-904
-793
-1008
-826
+643
+715
+747
+748
 Humain vérité
 \n\nset human-decision 1\nhuman_play
 NIL
@@ -1105,10 +1105,10 @@ NIL
 1
 
 BUTTON
-1016
-793
-1125
-826
+755
+715
+865
+749
 Humain mentir
 \n\nset human-decision 0\nhuman_play
 NIL
@@ -1122,10 +1122,10 @@ NIL
 1
 
 SLIDER
-1067
-33
-1239
-66
+131
+243
+303
+276
 error-rate
 error-rate
 0
@@ -1137,10 +1137,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-1440
-399
-1612
-432
+44
+631
+216
+664
 nb_best_player
 nb_best_player
 0
@@ -1152,10 +1152,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-803
-80
-860
-125
+544
+21
+601
+66
 Round:
 round-number
 17
@@ -1163,10 +1163,10 @@ round-number
 11
 
 SLIDER
-155
-140
-327
-173
+134
+325
+306
+358
 custom-count
 custom-count
 0
@@ -1178,10 +1178,10 @@ NIL
 HORIZONTAL
 
 SLIDER
-65
-282
-237
-315
+44
+467
+216
+500
 custom-betray-after
 custom-betray-after
 0
@@ -1193,10 +1193,10 @@ NIL
 HORIZONTAL
 
 INPUTBOX
-1612
-237
-1662
-297
+378
+670
+428
+730
 coins-verite-verite
 2.0
 1
@@ -1204,10 +1204,10 @@ coins-verite-verite
 Number
 
 INPUTBOX
-1541
-236
-1591
-296
+307
+669
+357
+729
 coins-verite-mensonge
 -1.0
 1
@@ -1215,10 +1215,10 @@ coins-verite-mensonge
 Number
 
 INPUTBOX
-1541
-167
-1591
-227
+307
+600
+357
+660
 coins-mensonge-mensonge
 0.0
 1
@@ -1226,10 +1226,10 @@ coins-mensonge-mensonge
 Number
 
 INPUTBOX
-1611
-167
-1661
-227
+377
+600
+427
+660
 coins-mensonge-verite
 3.0
 1
@@ -1237,10 +1237,10 @@ coins-mensonge-verite
 Number
 
 MONITOR
-950
-80
-1038
-125
+691
+21
+779
+66
 Total joueurs:
 count players
 17
@@ -1248,10 +1248,10 @@ count players
 11
 
 SWITCH
-65
-318
-291
-351
+44
+502
+270
+535
 custom-play-opponent-last-move
 custom-play-opponent-last-move
 1
@@ -1259,10 +1259,10 @@ custom-play-opponent-last-move
 -1000
 
 SLIDER
-242
-282
-461
-315
+220
+467
+439
+500
 custom-consecutive-betray-after
 custom-consecutive-betray-after
 0
@@ -1274,10 +1274,10 @@ NIL
 HORIZONTAL
 
 SWITCH
-238
-227
-439
-260
+217
+411
+418
+444
 custom-repeat-initial-moves
 custom-repeat-initial-moves
 1
@@ -1285,10 +1285,10 @@ custom-repeat-initial-moves
 -1000
 
 BUTTON
-760
-766
-823
-799
+501
+708
+564
+741
 reset
 set human-count 0\nset bot-count 0\nset copycat-count 0\nset cheater-count 0\nset cooperator-count 0\nset grudger-count 0\nset detective-count 0\nset simpleton-count 0\nset copykitten-count 0\nset custom-count 0\n\nsetup
 NIL
@@ -1302,10 +1302,10 @@ NIL
 1
 
 SLIDER
-516
-423
-689
-456
+223
+163
+396
+196
 simpleton-count
 simpleton-count
 0
@@ -1317,25 +1317,25 @@ NIL
 HORIZONTAL
 
 SLIDER
-540
-507
-668
-540
+222
+46
+350
+79
 bot-truth-percent
 bot-truth-percent
 0
 100
-50.0
+48.0
 1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-859
-80
-953
-125
+600
+21
+694
+66
 Matchs restants
 length remaining-matches
 17
@@ -1343,10 +1343,10 @@ length remaining-matches
 11
 
 BUTTON
-964
-748
-1076
-781
+703
+670
+815
+703
 Tour complet
 next-match-step\none-round-only\n
 NIL
@@ -1360,10 +1360,10 @@ NIL
 1
 
 SWITCH
-1187
-748
-1295
-781
+927
+670
+1035
+703
 fast-round
 fast-round
 1
@@ -1371,10 +1371,10 @@ fast-round
 -1000
 
 SWITCH
-63
-183
-234
-216
+42
+368
+213
+401
 custom-play-randomly
 custom-play-randomly
 0
@@ -1382,10 +1382,10 @@ custom-play-randomly
 -1000
 
 SLIDER
-238
-183
-410
-216
+217
+368
+389
+401
 custom-truth-percent
 custom-truth-percent
 0
@@ -1397,10 +1397,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-1038
-80
-1181
-125
+780
+21
+923
+66
 Worst players
 worst-player-strat
 17
@@ -1408,110 +1408,100 @@ worst-player-strat
 11
 
 TEXTBOX
-1555
-300
-1701
-326
+314
+553
+421
+580
 Gains du joueur
 15
 0.0
 1
 
 TEXTBOX
-1575
-99
-1639
-118
-Opposant
+251
+575
+297
+614
+   Opp\nJ
 15
 0.0
 1
 
 TEXTBOX
-1404
-215
-1449
-234
-Joueur
-15
-0.0
-1
-
-TEXTBOX
-1542
-144
-1596
-162
+308
+577
+362
+595
 Mensonge
 11
 0.0
 1
 
 TEXTBOX
-1481
-190
-1533
-208
+247
+622
+299
+640
 Mensonge
 11
 0.0
 1
 
 TEXTBOX
-1498
-255
-1529
-273
+263
+688
+294
+706
 Vérité
 11
 0.0
 1
 
 TEXTBOX
-1623
-146
-1655
-164
+389
+579
+421
+597
 Vérité
 11
 0.0
 1
 
 TEXTBOX
-531
-102
-681
-121
+150
+20
+300
+39
 Séléction des joueurs
 15
 0.0
 1
 
 TEXTBOX
-188
-105
-292
-124
+170
+299
+274
+318
 Joueur Custom
 15
 0.0
 1
 
 TEXTBOX
-1471
-328
-1621
-347
+74
+568
+186
+588
 Evolution du jeu 
 15
 0.0
 1
 
 INPUTBOX
-64
-219
-234
-279
+43
+403
+213
+463
 custom-initial-moves-list
 [0 1 0 1]
 1
@@ -1519,10 +1509,10 @@ custom-initial-moves-list
 String (reporter)
 
 MONITOR
-1180
-80
-1292
-125
+921
+21
+1033
+66
 NIL
 best-player-strat
 17
